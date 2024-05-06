@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Application</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCh4ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://kit.fontawesome.com/3e9970d7c2.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <div class="upper-header">
+            <i class="fa-solid fa-bars"></i>
+            <div>
+                <img src="images/news.jpg" width="30px" height="30px" alt="news logo" >
+                <b>Trending News</b>
+            </div>
+            <input type="search" class="search-input" placeholder="Search...">
+            <button class="subscribe">Subscribe</button>
+        </div>
+        <div class="lower-header">
+            <h4>TAMIL NADU</h4>
+            <h4>INDIA</h4>
+            <h4>ENTERTAINMENT</h4>
+            <h4>LIFESTYLE</h4>
+            <h4>SPECIAL NEWS</h4>
+            <h4>EDUCATION</h4>
+            <h4>EMPLOYMENTS</h4>
+            <h4>GAME</h4>
+            <h4>BUSINESS</h4>
+            <h4>VIRAL</h4>
+            <h4>TECHNOLOY</h4>
+        </div>
+    </header>
+    <section>
+        <div class="cards-container">
+            <!-- Cards will be dynamically added here -->
+        </div>
+    </section>
+    <script>
+        fetch("http://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=fbf32870bc524347a9231e1f036638ba")
+            .then(response => response.json())
+            .then(data => {
+                const cardsContainer = document.querySelector('.cards-container');
+                data.articles.forEach(item => {
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+                    card.innerHTML = `
+                        <h1>${item.title}</h1>
+                        <img src="${item.urlToImage}" alt="${item.title} image"/>
+                        <h2>${item.author ? item.author : 'Unknown'}</h2>
+                        <p>${item.content ? item.content : item.description}</p>
+                    `;
+                    cardsContainer.appendChild(card);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    </script>
+</body>
+
+</html>
